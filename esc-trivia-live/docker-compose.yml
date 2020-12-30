@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: server/.
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/code
+      - ./common:/code/common
+    depends_on:
+     - redis
+    environment:
+      - REDIS_URL=redis
+  redis:
+    image: redis:alpine

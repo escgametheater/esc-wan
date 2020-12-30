@@ -1,0 +1,25 @@
+{
+  "name": "esc-pubnub",
+  "version": "0.0.2",
+  "description": "Pubnub functions and API scripts",
+  "main": "pubnub-api.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "crypto": "^1.0.1",
+    "dnscache": "^1.0.1",
+    "fs": "0.0.1-security",
+    "pubnub": "^4.23.0",
+    "readline-sync": "^1.4.9",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node pubnub-api.js start",
+    "stop": "node pubnub-api.js stop",
+    "update": "node pubnub-api.js update",
+    "check": "node pubnub-api.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ESC Games",
+  "license": "UNLICENSED"
+}

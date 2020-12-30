@@ -1,0 +1,1 @@
+Aggregation logs will be saved here by nodeShake.js.

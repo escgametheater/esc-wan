@@ -1,0 +1,59 @@
+.question-view .question-container {
+	background: rgb(99,103,108);
+	border-radius: 5px;
+	padding: 2vmax;
+}
+
+.question-view .question-container h1 {
+	text-align: center;
+	font-weight: bold;
+	padding: 1.5rem;
+}
+
+.question-view .question-container button {
+	margin-bottom: 2vmax;
+	position: relative;
+}
+
+.question-view .question-container button.disabled {
+	opacity: 1;
+}
+
+.question-view .question-container button svg {
+	position: absolute;
+	left: 10px;
+	top: calc(50% - 10px);
+}
+
+.question-phase .question-view h2 {
+	font-size: 1.4rem;
+	text-align: center;
+	color: #fff;
+	padding-top: 1rem;
+}
+
+.question-phase .clock-container {
+	position: relative;
+	overflow: hidden;
+	height: 5px;
+	background: black;
+}
+
+.question-phase .clock-progress {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+
+	animation: move 8s linear forwards;
+}
+
+@keyframes move {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%;
+  }
+}

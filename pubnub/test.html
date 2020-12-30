@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PubNub test</title>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.6.js"></script>
+    <script>
+        function publish(connection, channel, message) {
+            connection.fire({channel: channel, message: message}, function(status, response) {
+                //console.log(status, response);
+            })
+        }
+        function fireMult(connection, channel, message, n) {
+            if (n > 0) {
+                publish(connection,channel,message);
+                if (n > 1) {
+                    setTimeout(function() {
+                        fireMult(connection,channel,message,n-1);
+                    },15);
+                }
+            }
+        }
+        function createPublisher() {
+
+            const pubnub = new PubNub({
+                publishKey : 'pub-c-b5184746-a1d8-4189-b45b-c33aee8785f6',
+                subscribeKey : 'sub-c-a5894506-e1f0-11e8-a197-eed1401c575e'
+            });
+
+            function publishConnectedMessage() {
+                //console.log("Since we're publishing on subscribe connectEvent, we're sure we'll receive the following publish.");
+                let publishConfig = {
+                    channel : "count",
+                    message: {
+                        counter: "connected"
+                    }
+                };
+                pubnub.publish(publishConfig, function(status, response) {
+                    console.log(status, response);
+                })
+            }
+
+            pubnub.addListener({
+                status: function(statusEvent) {
+                    if (statusEvent.category === "PNConnectedCategory") {
+                        publishConnectedMessage();
+                    }
+                },
+                message: function(msg) {
+                    console.log("Message received: ",msg);
+                    const elem = document.querySelector(".channel-"+msg.channel);
+                    if (elem) {
+                        elem.innerText = JSON.stringify(msg.message,null,4);
+                    } else {
+                        console.log("No elem to receive message.");
+                    }
+                },
+                presence: function(presenceEvent) {
+                    console.log("presence message",presenceEvent);
+                }
+            });
+            console.log("Subscribing..");
+            pubnub.subscribe({
+                channels: ['counter','countSummary']
+            });
+            return pubnub ;
+        }
+        let pubnubber = createPublisher();
+
+
+        // Does not work on iOS, should handle the event with a pubnub function if possible?
+        window.addEventListener("beforeunload", function() {
+            publish(pubnubber,'count',{counter: 'unload'});
+        });
+
+        window.addEventListener("devicemotion", function(e) {
+            const acc = e.accelerationIncludingGravity;
+            document.getElementById("accel").innerText = JSON.stringify(acc,null,4);
+
+            if (acc && (acc.x != null)) {
+                const SHAKE_THRESHOLD = 1.5 * 9.8;
+                const mag2 = acc.x * acc.x + acc.y * acc.y + acc.z * acc.z;
+                if (mag2 > SHAKE_THRESHOLD * SHAKE_THRESHOLD) {
+                    publish(pubnubber,'count',{counter: 'shake'});
+                }
+            }
+
+        });
+    </script>
+</head>
+<body>
+<button onclick="publish(pubnubber,'count',{counter: 'button1'});">Button 1</button>
+<button onclick="publish(pubnubber,'count',{counter: 'button2'});">Button 2</button>
+<br>
+<button onclick="fireMult(pubnubber,'count',{counter: 'button1'},100);">Button 1 x 100</button>
+<button onclick="fireMult(pubnubber,'count',{counter: 'button2'},100);">Button 2 x 100</button>
+<button onclick="fireMult(pubnubber,'count',{counter: 'button3'},100);">Button 3 x 100</button>
+<button onclick="fireMult(pubnubber,'count',{counter: 'button4'},100);">Button 4 x 100</button>
+<pre class="channel-countSummary"></pre>
+<pre id="accel"></pre>
+</body>
+</html>

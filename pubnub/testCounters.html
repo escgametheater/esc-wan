@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PubNub counters test</title>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.6.js"></script>
+    <script src="aggregator.js"></script>
+    <script>
+
+        const gameInstanceHash = "gameInstanceHash"+Math.floor(Date.now()/60/1000) ;
+        console.log({gameInstanceHash});
+
+        const pubNubConfig = {
+            publishKey : '<<<REDACTED>>>',
+            subscribeKey : '<<<REDACTED>>>'
+        };
+
+        const Aggregator = aggregator.Aggregator ;
+        const client = new Aggregator();
+        const shakePublishChannel = `aggregate.${gameInstanceHash}` ;
+
+        client.startPublisher(PubNub,pubNubConfig,shakePublishChannel);
+        const playerId = "player"+Math.random();
+
+        function publishKeyIdValue(team,player,shakePower) {
+            const message = {
+                name: gameInstanceHash,
+                values: [
+                    {
+                        key: team,
+                        id: player,
+                        value: shakePower
+                    }
+                ]
+            };
+            console.log({message});
+            client.publish(message);
+        }
+/*
+        window.addEventListener("devicemotion", function(e) {
+            const acc = e.accelerationIncludingGravity;
+            document.getElementById("accel").innerText = JSON.stringify(acc,null,4);
+
+            if (acc && (acc.x != null)) {
+                const SHAKE_THRESHOLD = 1.5 * 9.8;
+                const mag2 = acc.x * acc.x + acc.y * acc.y + acc.z * acc.z;
+                if (mag2 > SHAKE_THRESHOLD * SHAKE_THRESHOLD) {
+                    client.publish({counter: 'shake'});
+                }
+            }
+
+        });
+*/
+
+    </script>
+</head>
+<body>
+<button onclick="client.publish({command:aggregator.commands.COMMAND_DB_INCR_COUNTER, key: 'button1', value:1});">Button 1</button>
+<button onclick="client.publish({command:aggregator.commands.COMMAND_DB_INCR_COUNTER, key: 'button2', value:1});">Button 2</button>
+<br>
+<button onclick="client.fireMult({command:aggregator.commands.COMMAND_DB_INCR_COUNTER, key: 'button1', value:1},100);">Button 1 x 100</button>
+<button onclick="client.fireMult({command:aggregator.commands.COMMAND_DB_INCR_COUNTER, key: 'button2', value:1},100);">Button 2 x 100</button>
+<p>
+<button onclick="client.shakeClear();">Clear shake power</button>
+    <button onclick="client.shakeDone();">Done</button>
+<br>
+<button onclick="publishKeyIdValue('teamA',playerId,Math.floor(100*Math.random()));">Red team</button>
+<button onclick="publishKeyIdValue('teamB',playerId,Math.floor(100*Math.random()));">Blue team</button>
+    <br>
+    <button onclick="client.publishShake('teamA',playerId,100,100);">Red team x 100</button>
+    <button onclick="client.publishShake('teamB',playerId,100,100);">Blue team x 100</button>
+
+<pre class="channel-countSummary"></pre>
+<pre id="accel"></pre>
+</body>
+</html>

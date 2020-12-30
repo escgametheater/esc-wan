@@ -1,0 +1,35 @@
+{
+  "name": "@esc_games/esc-trivia-live",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/bootstrap.js",
+  "scripts": {
+    "test": "test",
+    "start": "node src/bootstrap.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/escgametheater/esc-wan.git"
+  },
+  "author": "jlevine@esc.games",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/escgametheater/esc-wan#readme",
+  "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "@types/redis": "^2.8.12",
+    "axios": "^0.18.0",
+    "axios-cookiejar-support": "^0.4.2",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-polyfill": "^6.26.0",
+    "crypto-js": "^3.1.9-1",
+    "dot-object": "^1.7.1",
+    "promise": "^8.0.3",
+    "pubnub": "^4.23.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "redis": "^2.8.0"
+  }
+}

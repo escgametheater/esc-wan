@@ -1,0 +1,64 @@
+/**
+ * ESCTriviaLive CSS
+ * Styles applied here should be global, or globally accessible utilities.
+ * Phase specific styles should go into the phase stylesheet
+ */
+
+.full-vh, .controller-ESCTriviaLive {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Drop support for fullscreen div, as its blocks interaction behind it */
+#scrollableDiv, #gofullscreen {
+	display: none;
+}
+
+.controller-ESCTriviaLive {
+	font-size: 1.2rem;
+	font-family: sans-serif;
+	background: rgb(60,63,67);
+    color: #fff;
+}
+
+/* ESC Header -- @todo move to ESC Controller SDK */
+
+.esc-header {
+	background: rgb(206,212,217);
+	height: 5vmax;
+	margin-bottom: 2vmax;
+}
+
+/* Theme Palette */
+
+[class*="-primary"] {
+    background: #fff; 
+    color: rgb(60,63,67);
+    border-color: #fff;
+} 
+[class*="-secondary"] {
+    background: transparent;
+    color: #fff;
+    border-color: #fff;
+} 
+[class*="-success"] {
+    background: rgb(128,200,114);
+    color: rgb(60,63,67);
+    border-color: rgb(128,200,114);
+} 
+[class*="-danger"] {
+    background: rgb(235,115,118);
+    color: rgb(60,63,67);
+    border-color: rgb(235,115,118);
+}
+[class*="-light"] {
+    background: #fff;
+    color: rgb(60,63,67);
+    border-color: #fff;
+}
+
+/* Typography */
+
+h1 {
+    font-size: 1.5rem;
+}
